@@ -513,4 +513,5 @@ add_lints!(
     trait_removed_supertrait,
     pub_module_level_const_missing,
     pub_static_missing,
+    associated_const_missing,
 );
