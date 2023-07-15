@@ -1,18 +1,49 @@
 SemverQuery(
     id: "associated_const_missing",
-    human_readable_name: "TODO",
+    human_readable_name: "",
     description: "TODO",
     required_update: Major,  // TODO
     reference_link: None,  // TODO
     query: r#"
     {
         CrateDiff {
-            # TODO
+            baseline {
+                item {
+                    ... on AssociatedConstant {
+                        visibility_limit @tag
+                        name @output
+
+                        importable_path {
+                            path @output @tag
+                        }
+
+                        span_: span @optional {
+                            filename @output
+                            begin_line @output
+                        }
+                    }
+                }
+            }
+            current {
+                item @fold @transform(op: "count") @filter(op: "=", value: ["$zero"]) {
+                    ... on AssociatedConstant {
+                        # TODO: determine if this is necessary or we want to check
+                        # public/private in another lint
+                        # To make sure constant keeps the same visibility
+                        visibility_limit @filter(op: "=", value: ["%visibility_limit"])
+
+                        # Makes sure we keep the same importable_path
+                        importable_path {
+                            path @filter(op: "=", value: ["%path"])
+                        }
+                    }
+                }
+            }
         }
     }"#,
     arguments: {
-        // TODO
+        "zero": 0,
     },
-    error_message: "TODO",
+    error_message: "A const associated with an impl is either missing, renamed, or made private/public",
     per_result_error_template: Some("TODO"),
 )
