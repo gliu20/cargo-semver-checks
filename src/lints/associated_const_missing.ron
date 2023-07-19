@@ -11,11 +11,11 @@ SemverQuery(
                 item {
                     ... on AssociatedConstant {
                         visibility_limit @tag
-                        name @output
+                        name @output @tag
 
-                        importable_path {
-                            path @output @tag
-                        }
+                        # importable_path {
+                        #     path @output @tag
+                        # }
 
                         span_: span @optional {
                             filename @output
@@ -32,10 +32,11 @@ SemverQuery(
                         # To make sure constant keeps the same visibility
                         visibility_limit @filter(op: "=", value: ["%visibility_limit"])
 
+                        name @filter(op: "=", value: ["%name"])
                         # Makes sure we keep the same importable_path
-                        importable_path {
-                            path @filter(op: "=", value: ["%path"])
-                        }
+                        # importable_path {
+                        #     path @filter(op: "=", value: ["%path"])
+                        # }
                     }
                 }
             }
