@@ -26,6 +26,6 @@ trait PrivateTraitWithConst {
     const MY_CONST: i32;
 }
 struct StructWithPrivateTraitWithConstWillRemove;
-impl PrivateTraitWithConst for StructWithPrivateTraitWithConst {
+impl PrivateTraitWithConst for StructWithPrivateTraitWithConstWillRemovec {
     const MY_CONST: i32 = 0;
 }
