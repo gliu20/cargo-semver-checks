@@ -1,6 +1,16 @@
-pub trait TRAIT_WITH_CONST {
-    const CONST_ON_TRAIT: i32;
+pub trait TraitWithConst {
+    const MY_CONST: i32;
 }
 
-struct STRUCT_WITH_TRAIT_WITH_CONST_WILL_REMOVE_IMPL;
-struct STRUCT_WITH_CONST_WILL_REMOVE_CONST;
+struct StructWithTraitWithConstWillRemoveImpl;
+
+pub trait TraitWithConstWillChangeType {
+    const MY_CONST: bool;
+}
+struct StructWithTraitWithConstWillChangeType;
+
+impl TraitWithConstWillChangeType for StructWithTraitWithConstWillChangeType {
+    const MY_CONST: bool = false;
+}
+
+struct StructWithConstWillRemoveConst;
