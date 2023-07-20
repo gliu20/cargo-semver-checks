@@ -20,9 +20,6 @@ SemverQuery(
                                     begin_line @output
                                 }
                             }
-                            associated_trait {
-                                trait_name: name @output
-                            }
                         }
                     }
                 }
