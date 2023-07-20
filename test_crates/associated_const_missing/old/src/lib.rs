@@ -20,3 +20,12 @@ impl TraitWithConstWillChangeType for StructWithTraitWithConstWillChangeType {
 struct StructWithConstWillRemoveConst {
     MY_CONST: i32
 }
+
+
+trait PrivateTraitWithConst {
+    const MY_CONST: i32;
+}
+struct StructWithPrivateTraitWithConstWillRemove;
+impl PrivateTraitWithConst for StructWithPrivateTraitWithConst {
+    const MY_CONST: i32 = 0;
+}
