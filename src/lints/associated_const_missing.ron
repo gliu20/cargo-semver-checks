@@ -9,34 +9,32 @@ SemverQuery(
         CrateDiff {
             baseline {
                 item {
-                    ... on AssociatedConstant {
-                        visibility_limit @tag
-                        name @output @tag
+                    ... on ImplOwner {
+                        inherent_impl {
+                            associated_constant {
+                                name @output @tag
+                                default @output
 
-                        # importable_path {
-                        #     path @output @tag
-                        # }
-
-                        span_: span @optional {
-                            filename @output
-                            begin_line @output
+                                span_: span @optional {
+                                    filename @output
+                                    begin_line @output
+                                }
+                            }
+                            associated_trait {
+                                trait_name: name @output
+                            }
                         }
                     }
                 }
             }
             current {
                 item @fold @transform(op: "count") @filter(op: "=", value: ["$zero"]) {
-                    ... on AssociatedConstant {
-                        # TODO: determine if this is necessary or we want to check
-                        # public/private in another lint
-                        # To make sure constant keeps the same visibility
-                        visibility_limit @filter(op: "=", value: ["%visibility_limit"])
-
-                        name @filter(op: "=", value: ["%name"])
-                        # Makes sure we keep the same importable_path
-                        # importable_path {
-                        #     path @filter(op: "=", value: ["%path"])
-                        # }
+                    ... on ImplOwner {
+                        inherent_impl {
+                            associated_constant {
+                                name @filter(op: "=", value: ["%name"])
+                            }
+                        }
                     }
                 }
             }
