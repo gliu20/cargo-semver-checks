@@ -6,19 +6,28 @@ SemverQuery(
     reference_link: None,  // TODO
     query: r#"
     {
+
+        # Key assumption:
+        # 
+        # Since `impl` blocks are usually required by the compiler to
+        # define the constants for the trait, we don't need to check 
+        # whether its missing there but instead whether its missing 
+        # in the trait
         CrateDiff {
             baseline {
                 item {
-                    ... on ImplOwner {
-                        inherent_impl {
-                            associated_constant {
-                                name @output @tag
-                                default @output
+                    ... on Trait {
+                        importable_path {
+                            path @output @tag
+                        }
 
-                                span_: span @optional {
-                                    filename @output
-                                    begin_line @output
-                                }
+                        associated_constant {
+                            name @output @tag
+                            default @output
+
+                            span_: span @optional {
+                                filename @output
+                                begin_line @output
                             }
                         }
                     }
@@ -26,11 +35,12 @@ SemverQuery(
             }
             current {
                 item @fold @transform(op: "count") @filter(op: "=", value: ["$zero"]) {
-                    ... on ImplOwner {
-                        inherent_impl {
-                            associated_constant {
-                                name @filter(op: "=", value: ["%name"])
-                            }
+                    ... on Trait {
+                        importable_path {
+                            path @filter(op: "=", value: ["%path"])
+                        }
+                        associated_constant {
+                            name @filter(op: "=", value: ["%name"])
                         }
                     }
                 }
